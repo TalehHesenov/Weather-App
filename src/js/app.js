@@ -7,8 +7,14 @@ const searchBtn = document.querySelector(".search button");
 const weatherIcon = document.querySelector(".weather-icon");
 async function checkWeather(city) {
     const response = await fetch(apiUrl + city + `&appid=${appKey}`);
+
+
+    if(response.status == 404){
+        document.querySelector(".error").style.display = "block";
+        document.querySelector(".weather").style.display = "none";
+        return;
+    }
     let data = await response.json();
-    console.log(data);
 
 
     document.querySelector(".city").innerHTML = data.name;
@@ -27,6 +33,10 @@ async function checkWeather(city) {
     }else if(data.weather[0].main == "Mist"){
         weatherIcon.src = "src/images/mist.png";
     }
+
+
+    document.querySelector(".weather").style.display = "block";
+    document.querySelector(".error").style.display = "none";
 }
 
 
